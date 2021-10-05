@@ -212,9 +212,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(row, index) in visibleData">
+                    <template
+                        v-for="(row, index) in visibleData"
+                        :key="customRowKey ? row[customRowKey] : index"
+                    >
                         <tr
-                            :key="customRowKey ? row[customRowKey] : index"
                             :class="[rowClass(row, index), {
                                 'is-selected': isRowSelected(row, selected),
                                 'is-checked': isRowChecked(row),
@@ -289,9 +291,13 @@
                                 />
                             </td>
                         </tr>
+                    </template>
 
+                    <template
+                        v-for="(row, index) in visibleData"
+                        :key="(customRowKey ? row[customRowKey] : index) + 'detail'"
+                    >
                         <transition
-                            :key="(customRowKey ? row[customRowKey] : index) + 'detail'"
                             :name="detailTransition"
                         >
                             <tr

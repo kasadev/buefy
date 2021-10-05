@@ -32,7 +32,7 @@
             </a>
             <div
                 v-else
-                :key="index"
+                :key="index + '1'"
                 :class="classObject(weekDay)"
                 class="datepicker-cell">
                 <span>{{ weekDay.getDate() }}</span>

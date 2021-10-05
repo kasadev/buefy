@@ -31,7 +31,7 @@
                     </a>
                     <div
                         v-else
-                        :key="index"
+                        :key="index + '1'"
                         :class="classObject(date)"
                         class="datepicker-cell">
                         {{ monthNames[date.getMonth()] }}
