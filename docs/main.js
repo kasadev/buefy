@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 import Buefy from '../src'
 import Axios from 'axios'
 import VueProgressBar from 'vue-progressbar'

@@ -48,7 +48,7 @@ fs.readdirSync(buefyDir, { withFileTypes: true })
 
                 attributes[htmlName + '/' + name] = {
                     "description": prop.description.split('<code>').join('').split('</code>').join(''),
-                    "type": prop.type.toLowerCase().replace(' ', '').replace(',', '|')
+                    "type": prop.type?.toLowerCase().replace(' ', '').replace(',', '|')
                 }
             });
         });
