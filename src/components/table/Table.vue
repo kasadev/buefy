@@ -28,7 +28,7 @@
                     :rounded="paginationRounded"
                     :icon-pack="iconPack"
                     :total="newDataTotal"
-                    :current-page.sync="newCurrentPage"
+                    v-model:current-page="newCurrentPage"
                     :aria-next-label="ariaNextLabel"
                     :aria-previous-label="ariaPreviousLabel"
                     :aria-page-label="ariaPageLabel"
@@ -63,7 +63,7 @@
                                     autocomplete="off"
                                     :value="isAllChecked"
                                     :disabled="isAllUncheckable"
-                                    @change.native="checkAll"/>
+                                    @change="checkAll"/>
                             </template>
                         </th>
                         <th
@@ -86,7 +86,7 @@
                                 :class="{
                                     'is-numeric': column.numeric,
                                     'is-centered': column.centered
-                            }">
+                                }">
                                 <template v-if="column.$scopedSlots && column.$scopedSlots.header">
                                     <b-slot-component
                                         :component="column"
@@ -104,7 +104,7 @@
                                                 sortMultipleDataComputed &&
                                                 sortMultipleDataComputed.length > 0 &&
                                                 sortMultipleDataComputed.filter(i =>
-                                            i.field === column.field).length > 0">
+                                                    i.field === column.field).length > 0">
                                             <b-icon
                                                 :icon="sortIcon"
                                                 :pack="iconPack"
@@ -112,7 +112,7 @@
                                                 :size="sortIconSize"
                                                 :class="{
                                                     'is-desc': sortMultipleDataComputed.filter(i =>
-                                                i.field === column.field)[0].order === 'desc'}"
+                                                        i.field === column.field)[0].order === 'desc'}"
                                             />
                                             {{ findIndexOfSortData(column) }}
                                             <button
@@ -145,7 +145,7 @@
                                     autocomplete="off"
                                     :value="isAllChecked"
                                     :disabled="isAllUncheckable"
-                                    @change.native="checkAll"/>
+                                    @change="checkAll"/>
                             </template>
                         </th>
                     </tr>
@@ -161,7 +161,7 @@
                                 :class="{
                                     'is-numeric': column.numeric,
                                     'is-centered': column.centered
-                            }">
+                                }">
                                 <template
                                     v-if="column.$scopedSlots && column.$scopedSlots.subheading"
                                 >
@@ -191,7 +191,7 @@
                                 <template v-if="column.searchable">
                                     <template
                                         v-if="column.$scopedSlots
-                                        && column.$scopedSlots.searchable">
+                                            && column.$scopedSlots.searchable">
                                         <b-slot-component
                                             :component="column"
                                             :scoped="true"
@@ -202,7 +202,7 @@
                                     </template>
                                     <b-input
                                         v-else
-                                        @[filtersEvent].native="onFiltersEvent"
+                                        @[filtersEvent]="onFiltersEvent"
                                         v-model="filters[column.field]"
                                         :type="column.numeric ? 'number' : 'text'" />
                                 </template>
@@ -212,9 +212,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(row, index) in visibleData">
+                    <template :key="customRowKey ? row[customRowKey] : index" v-for="(row, index) in visibleData">
                         <tr
-                            :key="customRowKey ? row[customRowKey] : index"
                             :class="[rowClass(row, index), {
                                 'is-selected': isRowSelected(row, selected),
                                 'is-checked': isRowChecked(row),
@@ -254,7 +253,7 @@
                                     autocomplete="off"
                                     :disabled="!isRowCheckable(row)"
                                     :value="isRowChecked(row)"
-                                    @click.native.prevent.stop="checkRow(row, index, $event)"
+                                    @click.prevent.stop="checkRow(row, index, $event)"
                                 />
                             </td>
 
@@ -272,7 +271,7 @@
                                         :style="column.getRootStyle(row)"
                                         :data-label="column.label"
                                         :props="{ row, column, index, colindex, toggleDetails }"
-                                        @click.native="$emit('cellclick',row,column,index,colindex)"
+                                        @click="$emit('cellclick',row,column,index,colindex)"
                                     />
                                 </template>
 
@@ -285,7 +284,7 @@
                                     autocomplete="off"
                                     :disabled="!isRowCheckable(row)"
                                     :value="isRowChecked(row)"
-                                    @click.native.prevent.stop="checkRow(row, index, $event)"
+                                    @click.prevent.stop="checkRow(row, index, $event)"
                                 />
                             </td>
                         </tr>
@@ -338,7 +337,7 @@
 
             <template v-if="loading">
                 <slot name="loading">
-                    <b-loading :is-full-page="false" :active.sync="loading" />
+                    <b-loading :is-full-page="false" v-model:active="loading" />
                 </slot>
             </template>
 
@@ -346,7 +345,7 @@
 
         <template
             v-if="(checkable && hasBottomLeftSlot()) ||
-            (paginated && (paginationPosition === 'bottom' || paginationPosition === 'both'))"
+                (paginated && (paginationPosition === 'bottom' || paginationPosition === 'both'))"
         >
             <slot name="pagination">
                 <b-table-pagination
@@ -356,7 +355,7 @@
                     :rounded="paginationRounded"
                     :icon-pack="iconPack"
                     :total="newDataTotal"
-                    :current-page.sync="newCurrentPage"
+                    v-model:current-page="newCurrentPage"
                     :aria-next-label="ariaNextLabel"
                     :aria-previous-label="ariaPreviousLabel"
                     :aria-page-label="ariaPageLabel"
@@ -692,7 +691,7 @@ export default {
         * Check if has any column using subheading.
         */
         hasCustomSubheadings() {
-            if (this.$scopedSlots && this.$scopedSlots.subheading) return true
+            if (this.$slots && this.$slots.subheading) return true
             return this.newColumns.some((column) => {
                 return column.subheading || (column.$scopedSlots && column.$scopedSlots.subheading)
             })

@@ -282,7 +282,7 @@ export default {
             this.handleScroll()
         }
     },
-    beforeDestroy() {
+    beforeUnmount() {
         if (typeof window !== 'undefined') {
             document.removeEventListener('keyup', this.keyPress)
             document.removeEventListener('click', this.clickedOutside)

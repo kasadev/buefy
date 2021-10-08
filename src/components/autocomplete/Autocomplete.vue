@@ -239,14 +239,14 @@ export default {
          * Check if exists default slot
          */
         hasDefaultSlot() {
-            return !!this.$scopedSlots.default
+            return !!this.$slots.default
         },
 
         /**
          * Check if exists group slot
          */
         hasGroupSlot() {
-            return !!this.$scopedSlots.group
+            return !!this.$slots.group
         },
 
         /**
@@ -681,7 +681,7 @@ export default {
             this.updateAppendToBody()
         }
     },
-    beforeDestroy() {
+    beforeUnmount() {
         if (typeof window !== 'undefined') {
             document.removeEventListener('click', this.clickedOutside)
             if (this.dropdownPosition === 'auto') { window.removeEventListener('resize', this.calcDropdownInViewportVertical) }

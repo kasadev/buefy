@@ -286,7 +286,7 @@ export default {
         if (this.programmatic) this.isActive = true
         else if (this.isActive) this.handleScroll()
     },
-    beforeDestroy() {
+    beforeUnmount() {
         if (typeof window !== 'undefined') {
             document.removeEventListener('keyup', this.keyPress)
             // reset scroll

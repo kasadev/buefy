@@ -219,7 +219,7 @@ export default {
         },
 
         hasDefaultSlot() {
-            return !!this.$scopedSlots.default
+            return !!this.$slots.default
         },
 
         hasEmptySlot() {

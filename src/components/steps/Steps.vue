@@ -10,7 +10,7 @@
                     :class="[childItem.type || type, childItem.headerClass, {
                         'is-active': childItem.isActive,
                         'is-previous': activeItem.index > childItem.index
-                }]">
+                    }]">
                     <a
                         class="step-link"
                         :class="{'is-clickable': isItemClickable(childItem)}"
