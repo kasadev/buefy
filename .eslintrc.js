@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     'buefy',
+    'plugin:vue/vue3-essential'
   ],
   rules: {
     'vue/attributes-order': 'off',
