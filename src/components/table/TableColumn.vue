@@ -76,7 +76,8 @@ export default {
             }
         },
         hasDefaultSlot() {
-            return !!this.$slots.default
+            // eslint-disable-next-line vue/no-deprecated-dollar-scopedslots-api
+            return !!this.$scopedSlots.default
         },
         /**
          * Return if column header is un-selectable

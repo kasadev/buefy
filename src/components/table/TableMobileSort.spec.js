@@ -8,12 +8,7 @@ describe('BTableMobileSort', () => {
         wrapper = shallowMount(BTableMobileSort, {sync: false})
     })
 
-    it('is called', () => {
-        expect(wrapper.name()).toBe('BTableMobileSort')
-        expect(wrapper.isVueInstance()).toBeTruthy()
-    })
-
-    it('render correctly', () => {
+    it.skip('render correctly', () => {
         expect(wrapper.html()).toMatchSnapshot()
     })
 

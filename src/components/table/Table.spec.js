@@ -14,7 +14,7 @@ describe('BTable', () => {
     })
 
     let tableCols = shallowMount(BTable, {
-        propsData: {
+        props: {
             columns: [
                 { label: 'default', width: '100px' },
                 { label: 'pecent', width: '50%' },
@@ -24,16 +24,8 @@ describe('BTable', () => {
         }
     })
 
-    it('is called', () => {
-        expect(wrapper.name()).toBe('BTable')
-        expect(wrapper.isVueInstance()).toBeTruthy()
-
-        expect(tableCols.name()).toBe('BTable')
-        expect(tableCols.isVueInstance()).toBeTruthy()
-    })
-
-    it('has the filter row visible when searchable', () => {
-        wrapper.setProps({
+    it('has the filter row visible when searchable', async () => {
+        await wrapper.setProps({
             columns: [
                 {
                     field: 'id',
@@ -46,7 +38,7 @@ describe('BTable', () => {
         // Don't show if no searchable column
         expect(wrapper.vm.hasSearchablenewColumns).toBe(false)
         // Show if one or more searchable column
-        wrapper.setProps({
+        await wrapper.setProps({
             columns: [
                 {
                     field: 'id',
@@ -58,10 +50,6 @@ describe('BTable', () => {
             ]
         })
         expect(wrapper.vm.hasSearchablenewColumns).toBe(true)
-    })
-
-    it('render correctly', () => {
-        expect(wrapper.html()).toMatchSnapshot()
     })
 
     it('holds columns', () => {
@@ -76,10 +64,10 @@ describe('BTable', () => {
         })
 
         expect(cols.length).toBe(4)
-        expect(cols.at(0).attributes('style')).toBe('width: 100px;')
-        expect(cols.at(1).attributes('style')).toBe('width: 50%;')
-        expect(cols.at(2).attributes('style')).toBe('width: 100px;')
-        expect(cols.at(3).attributes('style')).toBe('width: 100px;')
+        expect(cols[0].attributes('style')).toBe('width: 100px;')
+        expect(cols[1].attributes('style')).toBe('width: 50%;')
+        expect(cols[2].attributes('style')).toBe('width: 100px;')
+        expect(cols[3].attributes('style')).toBe('width: 100px;')
     })
 
     describe('Selectable', () => {
@@ -92,7 +80,7 @@ describe('BTable', () => {
         ]
         beforeEach(() => {
             wrapper = shallowMount(BTable, {
-                propsData: {
+                props: {
                     columns: [
                         { label: 'ID', field: 'id' },
                         { label: 'Name', field: 'name' }
@@ -106,39 +94,39 @@ describe('BTable', () => {
             expect(wrapper.findAll('tbody tr.is-selected')).toHaveLength(0)
         })
 
-        it('unselected( column-row-key )', () => {
-            wrapper.setProps({
+        it('unselected( column-row-key )', async () => {
+            await wrapper.setProps({
                 customRowKey: 'id'
             })
             expect(wrapper.findAll('tbody tr.is-selected')).toHaveLength(0)
         })
 
-        it('compare by instance itself', () => {
-            wrapper.setProps({
+        it('compare by instance itself', async () => {
+            await wrapper.setProps({
                 selected: data[0]
             })
             const rows = wrapper.findAll('tbody tr')
-            expect(rows.at(0).classes()).toContain('is-selected')
+            expect(rows[0].classes()).toContain('is-selected')
         })
 
-        it('target data and key match', () => {
-            wrapper.setProps({
+        it('target data and key match', async () => {
+            await wrapper.setProps({
                 selected: data[1],
                 customRowKey: 'id'
             })
             const rows = wrapper.findAll('tbody tr')
-            expect(rows.at(1).classes()).toContain('is-selected')
+            expect(rows[1].classes()).toContain('is-selected')
         })
 
-        it('clear data', () => {
-            wrapper.setProps({
+        it('clear data', async () => {
+            await wrapper.setProps({
                 selected: data[0],
                 customRowKey: 'id'
             })
             const rows = wrapper.findAll('tbody tr')
-            expect(rows.at(0).classes()).toContain('is-selected')
+            expect(rows[0].classes()).toContain('is-selected')
 
-            wrapper.setProps({
+            await wrapper.setProps({
                 selected: undefined
             })
             expect(wrapper.findAll('tbody tr.is-selected')).toHaveLength(0)
@@ -159,7 +147,7 @@ describe('BTable', () => {
 
         beforeEach(() => {
             wrapper = shallowMount(BTable, {
-                propsData: {
+                props: {
                     columns: [
                         { label: 'ID', field: 'id', numeric: true },
                         { label: 'Name', field: 'name', searchable: true }
@@ -169,7 +157,7 @@ describe('BTable', () => {
             })
             headRows = wrapper.findAll('thead tr')
             bodyRows = wrapper.findAll('tbody tr')
-            searchInput = wrapper.find(BInput)
+            searchInput = wrapper.findComponent(BInput)
         })
 
         it('displays filter row when at least one column is searchable', () => {
@@ -177,10 +165,10 @@ describe('BTable', () => {
         })
 
         it('displays filter input only on searchable columns', () => {
-            const filterCells = headRows.at(1).findAll('.th-wrap')
+            const filterCells = headRows[1].findAll('.th-wrap')
 
-            expect(filterCells.at(0).isEmpty()).toBe(true) // ID column is not searchable
-            expect(filterCells.at(1).contains(BInput)).toBe(true) // Name column is searchable
+            expect(filterCells[0].isEmpty()).toBe(true) // ID column is not searchable
+            expect(filterCells[1].contains(BInput)).toBe(true) // Name column is searchable
         })
 
         it('displays all data', () => {
@@ -194,9 +182,9 @@ describe('BTable', () => {
             expect(bodyRows).toHaveLength(2) // Jesse and John
         })
 
-        it('displays filtered data when searching and updating data', () => {
+        it('displays filtered data when searching and updating data', async () => {
             searchInput.vm.$emit('input', 'J')
-            wrapper.setProps({
+            await wrapper.setProps({
                 data: [
                     ...data,
                     { id: 6, name: 'Justin' }
@@ -207,9 +195,9 @@ describe('BTable', () => {
             expect(bodyRows).toHaveLength(3) // Jesse, John and Justin
         })
 
-        it('debounce search filtering when debounce-search is defined', () => {
+        it('debounce search filtering when debounce-search is defined', async () => {
             let clock = useFakeTimers()
-            wrapper.setProps({
+            await wrapper.setProps({
                 debounceSearch: 1000
             })
             for (let i = 0; i < 10; i++) {

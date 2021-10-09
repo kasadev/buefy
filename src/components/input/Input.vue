@@ -38,9 +38,10 @@
             :icon="icon"
             :pack="iconPack"
             :size="iconSize"
-            @click.native="iconClick('icon-click', $event)"/>
+            @click="iconClick('icon-click', $event)"/>
 
         <b-icon
+            ref="rightIcon"
             v-if="!loading && hasIconRight"
             class="is-right"
             :class="{ 'is-clickable': passwordReveal || iconRightClickable }"
@@ -48,8 +49,8 @@
             :pack="iconPack"
             :size="iconSize"
             :type="rightIconType"
-            both
-            @click.native="rightIconClick"/>
+            :both="true"
+            @click="rightIconClick"/>
 
         <small
             v-if="maxlength && hasCounter && type !== 'number'"
@@ -183,6 +184,7 @@ export default {
                 case 'is-info': return 'information'
                 case 'is-warning': return 'alert'
             }
+            return ''
         },
 
         /**
@@ -227,7 +229,6 @@ export default {
         togglePasswordVisibility() {
             this.isPasswordVisible = !this.isPasswordVisible
             this.newType = this.isPasswordVisible ? 'text' : 'password'
-
             this.$nextTick(() => {
                 this.focus()
             })

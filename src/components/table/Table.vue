@@ -48,7 +48,7 @@
             <table
                 class="table"
                 :class="tableClasses"
-                :tabindex="!focusable ? false : 0"
+                :tabindex="!focusable ? null : 0"
                 @keydown.self.prevent.up="pressedArrow(-1)"
                 @keydown.self.prevent.down="pressedArrow(1)">
                 <caption v-show="showCaption" v-if="caption">{{ caption }}</caption>
@@ -212,7 +212,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template :key="customRowKey ? row[customRowKey] : index" v-for="(row, index) in visibleData">
+                    <template v-for="(row, index) in visibleData" :key="customRowKey ? row[customRowKey] : index">
                         <tr
                             :class="[rowClass(row, index), {
                                 'is-selected': isRowSelected(row, selected),
@@ -289,10 +289,7 @@
                             </td>
                         </tr>
 
-                        <transition
-                            :key="(customRowKey ? row[customRowKey] : index) + 'detail'"
-                            :name="detailTransition"
-                        >
+                        <transition :name="detailTransition">
                             <tr
                                 v-if="isActiveDetailRow(row)"
                                 class="detail">
@@ -337,7 +334,7 @@
 
             <template v-if="loading">
                 <slot name="loading">
-                    <b-loading :is-full-page="false" v-model:active="loading" />
+                    <b-loading :is-full-page="false" :active="loading" />
                 </slot>
             </template>
 
@@ -691,7 +688,7 @@ export default {
         * Check if has any column using subheading.
         */
         hasCustomSubheadings() {
-            if (this.$slots && this.$slots.subheading) return true
+            if (this.$slots.subheading && this.$slots.subheading()) return true
             return this.newColumns.some((column) => {
                 return column.subheading || (column.$scopedSlots && column.$scopedSlots.subheading)
             })
@@ -734,7 +731,7 @@ export default {
                     const component = new TableColumnComponent(
                         { parent: this, propsData: column }
                     )
-                    component.$scopedSlots = {
+                    component.$scopedSlots = { // Attempting to mutate public property "$scopedSlots". Properties starting with $ are reserved and readonly
                         default: (props) => {
                             const vnode = component.$createElement('span', {
                                 domProps: {
@@ -1220,9 +1217,9 @@ export default {
         * Check if footer slot has custom content.
         */
         hasCustomFooterSlot() {
-            if (this.$slots.footer.length > 1) return true
+            if (this.$slots.footer?.()?.length > 1) return true
 
-            const tag = this.$slots.footer[0].tag
+            const tag = this.$slots.footer()[0].tag
             if (tag !== 'th' && tag !== 'td') return false
 
             return true
@@ -1350,7 +1347,7 @@ export default {
         },
 
         emitEventForRow(eventName, event, row) {
-            return this.$listeners[eventName] ? this.$emit(eventName, row, event) : null
+            return this.$attributes[eventName] ? this.$emit(eventName, row, event) : null
         },
 
         /**

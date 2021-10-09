@@ -18,7 +18,7 @@
                 >
                     <b-slot-component
                         ref="tabLink"
-                        v-if="childItem.$scopedSlots.header"
+                        v-if="childItem.$slots.header"
                         :component="childItem"
                         name="header"
                         tag="a"
