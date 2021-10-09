@@ -75,6 +75,7 @@
     "@fortawesome/fontawesome-free": "5.3.1",
     "@mdi/font": "4.8.95",
     "@rollup/plugin-alias": "^3.1.5",
+    "@vue/babel-preset-app": "^4.5.13",
     "@vue/compat": "^3.2.19",
     "@vue/compiler-sfc": "^3.2.19",
     "@vue/test-utils": "^2.0.0-rc.15",
@@ -99,7 +100,7 @@
     "cross-spawn": "5.0.1",
     "css-loader": "0.28.0",
     "cypress": "3.4.1",
-    "eslint": "^4.18.2",
+    "eslint": "^7.32.0",
     "eslint-config-buefy": "0.0.3",
     "eslint-plugin-vue": "^7.19.1",
     "esm": "3.2.25",
@@ -123,7 +124,7 @@
     "prerender-spa-plugin": "3.4.0",
     "raw-loader": "0.5.1",
     "rimraf": "2.6.0",
-    "rollup": "1.17.0",
+    "rollup": "^2.58.0",
     "rollup-copy-plugin": "0.1.0",
     "rollup-plugin-babel": "4.3.2",
     "rollup-plugin-commonjs": "9.2.1",
@@ -166,8 +167,7 @@
     "npm": ">= 3.0.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "> 5%",
+    "last 2 versions"
   ]
 }
