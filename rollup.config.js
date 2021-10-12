@@ -1,4 +1,6 @@
 import vue from 'rollup-plugin-vue'
+import alias from '@rollup/plugin-alias'
+
 import node from 'rollup-plugin-node-resolve'
 import cjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
@@ -46,7 +48,11 @@ const vuePluginConfig = {
     template: {
         isProduction: true,
         compilerOptions: {
-            whitespace: 'condense'
+            whitespace: 'condense',
+            compatConfig: {
+                MODE: 2,
+                INSTANCE_LISTENERS: false // https://github.com/vuejs/vue-next/issues/4566#issuecomment-917997056}
+            }
         }
     }
 }
@@ -68,6 +74,11 @@ export default () => {
                     }
                 },
                 plugins: [
+                    alias({
+                        entries: [
+                            { find: 'vue', replacement: '@vue/compat' }
+                        ]
+                    }),
                     node({
                         extensions: ['.vue', '.js']
                     }),
@@ -88,6 +99,11 @@ export default () => {
                 dir: `dist/esm`
             },
             plugins: [
+                alias({
+                    entries: [
+                        { find: 'vue', replacement: '@vue/compat' }
+                    ]
+                }),
                 node({
                     extensions: ['.vue', '.js']
                 }),
@@ -105,6 +121,11 @@ export default () => {
                 exports: 'named'
             },
             plugins: [
+                alias({
+                    entries: [
+                        { find: 'vue', replacement: '@vue/compat' }
+                    ]
+                }),
                 node({
                     extensions: ['.vue', '.js']
                 }),
@@ -127,6 +148,11 @@ export default () => {
                 }
             },
             plugins: [
+                alias({
+                    entries: [
+                        { find: 'vue', replacement: '@vue/compat' }
+                    ]
+                }),
                 node({
                     extensions: ['.vue', '.js']
                 }),
@@ -144,6 +170,11 @@ export default () => {
                 banner: bannerTxt
             },
             plugins: [
+                alias({
+                    entries: [
+                        { find: 'vue', replacement: '@vue/compat' }
+                    ]
+                }),
                 node({
                     extensions: ['.vue', '.js']
                 }),
