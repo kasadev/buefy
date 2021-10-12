@@ -21,7 +21,7 @@ module.exports = {
             'anonymous': 'always',
             'named': 'never'
         }],
-        'max-len': ['error', {
+        'max-len': ['warn', {
             'code': 150,
             'tabWidth': 4,
             'ignoreUrls': true,
@@ -67,7 +67,9 @@ module.exports = {
         }],
         'vue/no-reserved-keys': 0,
         'vue/require-default-prop': 0,
-
+        'vue/no-deprecated-dollar-scopedslots-api': 'off',
+        'vue/require-slots-as-functions': 'off',
+        'vue/no-deprecated-dollar-listeners-api': 'off',
         // import
         'import/no-webpack-loader-syntax': 0,
         'vue/attributes-order': 'off',

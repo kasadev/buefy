@@ -1,4 +1,5 @@
 import {default as InjectedChildMixin, Sorted} from './InjectedChildMixin'
+import { getUid } from './UidMixin'
 
 export default (parentCmp) => ({
     mixins: [InjectedChildMixin(parentCmp, Sorted)],
@@ -12,7 +13,7 @@ export default (parentCmp) => ({
         },
         value: {
             type: String,
-            default() { return this._uid.toString() }
+            default() { return getUid() }
         },
         headerClass: {
             type: [String, Array, Object],

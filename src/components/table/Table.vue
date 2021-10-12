@@ -688,7 +688,7 @@ export default {
         * Check if has any column using subheading.
         */
         hasCustomSubheadings() {
-            if (this.$slots.subheading && this.$slots.subheading()) return true
+            if (this.$scopedSlots && this.$scopedSlots.subheading) return true
             return this.newColumns.some((column) => {
                 return column.subheading || (column.$scopedSlots && column.$scopedSlots.subheading)
             })
@@ -731,6 +731,7 @@ export default {
                     const component = new TableColumnComponent(
                         { parent: this, propsData: column }
                     )
+                    // eslint-disable-next-line max-len
                     component.$scopedSlots = { // Attempting to mutate public property "$scopedSlots". Properties starting with $ are reserved and readonly
                         default: (props) => {
                             const vnode = component.$createElement('span', {
@@ -1217,9 +1218,9 @@ export default {
         * Check if footer slot has custom content.
         */
         hasCustomFooterSlot() {
-            if (this.$slots.footer?.()?.length > 1) return true
+            if (this.$slots.footer.length > 1) return true
 
-            const tag = this.$slots.footer()[0].tag
+            const tag = this.$slots.footer[0].tag
             if (tag !== 'th' && tag !== 'td') return false
 
             return true
@@ -1347,7 +1348,7 @@ export default {
         },
 
         emitEventForRow(eventName, event, row) {
-            return this.$attributes[eventName] ? this.$emit(eventName, row, event) : null
+            return this.$listeners[eventName] ? this.$emit(eventName, row, event) : null
         },
 
         /**

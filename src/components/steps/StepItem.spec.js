@@ -18,15 +18,10 @@ const WrapperComp = {
 
 describe('BStepItem', () => {
     beforeEach(() => {
-        wrapper = mount(WrapperComp, { sync: false }).find({ ref: 'testItem' })
+        wrapper = mount(WrapperComp).findComponent({ ref: 'testItem' })
     })
 
-    it('is called', () => {
-        expect(wrapper.name()).toBe('BStepItem')
-        expect(wrapper.isVueInstance()).toBeTruthy()
-    })
-
-    it('render correctly', () => {
+    it.only('render correctly', () => {
         expect(wrapper.html()).toMatchSnapshot()
     })
 

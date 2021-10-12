@@ -24,7 +24,7 @@ describe('BTable', () => {
         }
     })
 
-    it('has the filter row visible when searchable', async () => {
+    it.only('has the filter row visible when searchable', async () => {
         await wrapper.setProps({
             columns: [
                 {

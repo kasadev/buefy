@@ -240,7 +240,7 @@ export default {
             this.removeBodyClass(className)
         }
     },
-    render(createElement, fn) {
+    render(createElement) {
         return this.genNavbar(createElement)
     }
 }
