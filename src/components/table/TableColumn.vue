@@ -105,7 +105,6 @@ export default {
     },
     created() {
         if (!this.$table) {
-            this.$destroy()
             throw new Error('You should wrap bTableColumn on a bTable')
         }
         this.$table.refreshSlots()

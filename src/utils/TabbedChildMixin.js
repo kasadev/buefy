@@ -12,7 +12,7 @@ export default (parentCmp) => ({
         },
         value: {
             type: String,
-            default() { return this._uid.toString() }
+            default() { return Math.floor(Math.random() * 100000000) }
         },
         headerClass: {
             type: [String, Array, Object],

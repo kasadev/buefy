@@ -6,8 +6,7 @@
                 expanded
                 v-if="sortMultiple">
                 <option
-                    v-for="(column, index) in columns"
-                    v-if="column.sortable"
+                    v-for="(column, index) in sortableColumns"
                     :key="index"
                     :value="column">
                     {{ getLabel(column) }}
@@ -36,8 +35,7 @@
                     </option>
                 </template>
                 <option
-                    v-for="(column, index) in columns"
-                    v-if="column.sortable"
+                    v-for="(column, index) in sortableColumns"
                     :key="index"
                     :value="column">
                     {{ column.label }}
@@ -128,6 +126,9 @@ export default {
         }
     },
     computed: {
+        sortableColumns() {
+            return this.columns?.filter?.(({sortable}) => !!sortable)
+        },
         showPlaceholder() {
             return !this.columns || !this.columns.some((column) => column === this.mobileSort)
         }

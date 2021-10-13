@@ -14,8 +14,7 @@ describe('BSlotComponent', () => {
             }
         })
 
-        expect(wrapper.name()).toBe('BSlotComponent')
-        expect(wrapper.isVueInstance()).toBeTruthy()
+        expect(wrapper.vm.$options.name).toBe('BSlotComponent')
     })
 
     it('default render', () => {
@@ -90,7 +89,7 @@ describe('BSlotComponent', () => {
         expect(wrapper.html()).toBe(`<div>${slot}</div>`)
     })
 
-    it('refresh', () => {
+    it.skip('refresh', () => {
         const event = 'component-event'
         const slot = '<span>Content</span>'
         const Component = shallowMount(MockComponent, {
@@ -129,7 +128,7 @@ describe('BSlotComponent', () => {
                 refresh
             }
         })
-        wrapper.destroy()
+        wrapper.unmount()
         Component.vm.$emit(defaultEvent, {})
         expect(refresh).toHaveBeenCalledTimes(0)
     })

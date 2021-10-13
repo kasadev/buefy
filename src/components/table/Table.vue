@@ -48,7 +48,7 @@
             <table
                 class="table"
                 :class="tableClasses"
-                :tabindex="!focusable ? false : 0"
+                :tabindex="!focusable ? null : 0"
                 @keydown.self.prevent.up="pressedArrow(-1)"
                 @keydown.self.prevent.down="pressedArrow(1)">
                 <caption v-show="showCaption" v-if="caption">{{ caption }}</caption>
@@ -86,7 +86,7 @@
                                 :class="{
                                     'is-numeric': column.numeric,
                                     'is-centered': column.centered
-                            }">
+                                }">
                                 <template v-if="column.$scopedSlots && column.$scopedSlots.header">
                                     <b-slot-component
                                         :component="column"
@@ -104,7 +104,7 @@
                                                 sortMultipleDataComputed &&
                                                 sortMultipleDataComputed.length > 0 &&
                                                 sortMultipleDataComputed.filter(i =>
-                                            i.field === column.field).length > 0">
+                                                    i.field === column.field).length > 0">
                                             <b-icon
                                                 :icon="sortIcon"
                                                 :pack="iconPack"
@@ -112,7 +112,7 @@
                                                 :size="sortIconSize"
                                                 :class="{
                                                     'is-desc': sortMultipleDataComputed.filter(i =>
-                                                i.field === column.field)[0].order === 'desc'}"
+                                                        i.field === column.field)[0].order === 'desc'}"
                                             />
                                             {{ findIndexOfSortData(column) }}
                                             <button
@@ -161,7 +161,7 @@
                                 :class="{
                                     'is-numeric': column.numeric,
                                     'is-centered': column.centered
-                            }">
+                                }">
                                 <template
                                     v-if="column.$scopedSlots && column.$scopedSlots.subheading"
                                 >
@@ -191,7 +191,7 @@
                                 <template v-if="column.searchable">
                                     <template
                                         v-if="column.$scopedSlots
-                                        && column.$scopedSlots.searchable">
+                                            && column.$scopedSlots.searchable">
                                         <b-slot-component
                                             :component="column"
                                             :scoped="true"
@@ -212,9 +212,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(row, index) in visibleData">
+                    <template v-for="(row, index) in visibleData" :key="customRowKey ? row[customRowKey] : index">
                         <tr
-                            :key="customRowKey ? row[customRowKey] : index"
                             :class="[rowClass(row, index), {
                                 'is-selected': isRowSelected(row, selected),
                                 'is-checked': isRowChecked(row),
@@ -258,14 +257,12 @@
                                 />
                             </td>
 
-                            <template v-for="(column, colindex) in visibleColumns">
-
+                            <template v-for="(column, colindex) in visibleColumns" :key="column.newKey + ':' + index + ':' + colindex">
                                 <template v-if="column.$scopedSlots && column.$scopedSlots.default">
                                     <b-slot-component
-                                        :key="column.newKey + ':' + index + ':' + colindex"
                                         :component="column"
                                         v-bind="column.tdAttrs(row, column)"
-                                        scoped
+                                        :scoped="true"
                                         name="default"
                                         tag="td"
                                         :class="column.getRootClasses(row)"
@@ -290,10 +287,7 @@
                             </td>
                         </tr>
 
-                        <transition
-                            :key="(customRowKey ? row[customRowKey] : index) + 'detail'"
-                            :name="detailTransition"
-                        >
+                        <transition :name="detailTransition" >
                             <tr
                                 v-if="isActiveDetailRow(row)"
                                 class="detail">
@@ -346,7 +340,7 @@
 
         <template
             v-if="(checkable && hasBottomLeftSlot()) ||
-            (paginated && (paginationPosition === 'bottom' || paginationPosition === 'both'))"
+                (paginated && (paginationPosition === 'bottom' || paginationPosition === 'both'))"
         >
             <slot name="pagination">
                 <b-table-pagination
@@ -730,7 +724,7 @@ export default {
 
         newColumns() {
             if (this.columns && this.columns.length) {
-                return this.columns.map((column) => {
+                const newcols = this.columns.map((column) => {
                     const TableColumnComponent = VueInstance.extend(TableColumn)
                     const component = new TableColumnComponent(
                         { parent: this, propsData: column }
@@ -747,6 +741,7 @@ export default {
                     }
                     return component
                 })
+                return newcols
             }
             return this.defaultSlots
                 .filter((vnode) =>
@@ -1221,9 +1216,9 @@ export default {
         * Check if footer slot has custom content.
         */
         hasCustomFooterSlot() {
-            if (this.$slots.footer.length > 1) return true
+            if (this.$slots.footer().length > 1) return true
 
-            const tag = this.$slots.footer[0].tag
+            const tag = this.$slots.footer()[0].tag
             if (tag !== 'th' && tag !== 'td') return false
 
             return true
@@ -1233,7 +1228,7 @@ export default {
         * Check if bottom-left slot exists.
         */
         hasBottomLeftSlot() {
-            return typeof this.$slots['bottom-left'] !== 'undefined'
+            return typeof this.$slots['bottom-left']() !== 'undefined'
         },
 
         /**
@@ -1351,7 +1346,7 @@ export default {
         },
 
         emitEventForRow(eventName, event, row) {
-            return this.$listeners[eventName] ? this.$emit(eventName, row, event) : null
+            return this.$attributes[eventName] ? this.$emit(eventName, row, event) : null
         },
 
         /**

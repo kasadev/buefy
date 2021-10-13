@@ -1,22 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BTable render correctly 1`] = `
+exports[`BTable holds columns 1`] = `
 <div class="b-table">
-    <!---->
-    <!---->
+    <!--v-if-->
+    <!--v-if-->
     <div class="table-wrapper has-mobile-cards">
         <table class="table">
-            <!---->
-            <!---->
+            <!--v-if-->
+            <thead>
+                <tr>
+                    <!--v-if-->
+                    <!--v-if-->
+                    <th class="" draggable="false">
+                        <div class="th-wrap"><span class="is-relative">default <b-icon-stub icon="arrow-up" size="is-small" both="true" class="sort-icon is-invisible"></b-icon-stub></span></div>
+                    </th>
+                    <th class="" draggable="false">
+                        <div class="th-wrap"><span class="is-relative">pecent <b-icon-stub icon="arrow-up" size="is-small" both="true" class="sort-icon is-invisible"></b-icon-stub></span></div>
+                    </th>
+                    <th class="" draggable="false">
+                        <div class="th-wrap"><span class="is-relative">fixed_num <b-icon-stub icon="arrow-up" size="is-small" both="true" class="sort-icon is-invisible"></b-icon-stub></span></div>
+                    </th>
+                    <th class="" draggable="false">
+                        <div class="th-wrap"><span class="is-relative">fixed_str <b-icon-stub icon="arrow-up" size="is-small" both="true" class="sort-icon is-invisible"></b-icon-stub></span></div>
+                    </th>
+                    <!--v-if-->
+                </tr>
+                <!--v-if-->
+                <!--v-if-->
+            </thead>
+            <tbody>
+                <tr class="is-empty">
+                    <td colspan="4"></td>
+                </tr>
+            </tbody>
+            <!--v-if-->
+        </table>
+        <!--v-if-->
+    </div>
+    <!--v-if-->
+</div>
+`;
+
+exports[`BTable render correctly 1`] = `
+<div class="b-table">
+    <!--v-if-->
+    <!--v-if-->
+    <div class="table-wrapper has-mobile-cards">
+        <table class="table">
+            <!--v-if-->
+            <!--v-if-->
             <tbody>
                 <tr class="is-empty">
                     <td colspan="0"></td>
                 </tr>
             </tbody>
-            <!---->
+            <!--v-if-->
         </table>
-        <!---->
+        <!--v-if-->
     </div>
-    <!---->
+    <!--v-if-->
 </div>
 `;
