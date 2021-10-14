@@ -71,6 +71,7 @@ module.exports = {
         'vue/no-deprecated-v-bind-sync': 0,
         'vue/no-deprecated-v-on-native-modifier': 0,
         'vue/no-deprecated-dollar-scopedslots-api': 0,
+        'vue/no-deprecated-destroyed-lifecycle': 0,
         // '': 0,
         // import
         'import/no-webpack-loader-syntax': 0,

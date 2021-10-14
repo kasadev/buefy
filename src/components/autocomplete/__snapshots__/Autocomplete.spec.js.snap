@@ -2,18 +2,20 @@
 
 exports[`BAutocomplete render correctly 1`] = `
 <div class="autocomplete control">
-    <div class="control is-clearfix"><input type="text" autocomplete="off" aria-autocomplete="list" class="input">
-        <!---->
-        <!---->
-        <!---->
+    <div class="control is-clearfix"><input class="input" type="text" autocomplete="off" aria-autocomplete="list">
+        <!--v-if-->
+        <!--v-if-->
+        <!--v-if-->
     </div>
-    <div class="dropdown-menu" style="display: none;" name="fade">
-        <div class="dropdown-content" style="display: none;">
-            <!---->
-            <!---->
-            <!---->
-            <!---->
+    <transition-stub>
+        <div class="dropdown-menu" style="display: none;">
+            <div class="dropdown-content" style="display: none;">
+                <!--v-if-->
+                <!--v-if-->
+                <!--v-if-->
+                <!--v-if-->
+            </div>
         </div>
-    </div>
+    </transition-stub>
 </div>
 `;

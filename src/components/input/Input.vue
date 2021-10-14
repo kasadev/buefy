@@ -48,7 +48,7 @@
             :pack="iconPack"
             :size="iconSize"
             :type="rightIconType"
-            both
+            :both="true"
             @click.native="rightIconClick"/>
 
         <small
@@ -71,7 +71,6 @@ export default {
         [Icon.name]: Icon
     },
     mixins: [FormElementMixin],
-    inheritAttrs: false,
     props: {
         value: [Number, String],
         type: {
@@ -183,6 +182,7 @@ export default {
                 case 'is-info': return 'information'
                 case 'is-warning': return 'alert'
             }
+            return ''
         },
 
         /**

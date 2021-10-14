@@ -9,37 +9,36 @@ describe('BInput', () => {
         wrapper = shallowMount(BInput)
     })
 
-    it('render correctly', () => {
+    it('render correctly', async () => {
         expect(wrapper.html()).toMatchSnapshot()
     })
 
-    it('is vue instance', () => {
-        expect(wrapper.name()).toBe('BInput')
-        expect(wrapper.isVueInstance()).toBeTruthy()
+    it('is vue instance', async () => {
+        expect(wrapper.vm.$options.name).toBe('BInput')
     })
 
-    it('renders input element by default', () => {
-        expect(wrapper.contains('input')).toBeTruthy()
+    it('renders input element by default', async () => {
+        expect(wrapper.find('input')).toBeTruthy()
         expect(wrapper.classes()).toContain('control')
     })
 
-    it('render textarea element when type is textarea', () => {
-        wrapper.setProps({ type: 'textarea' })
+    it('render textarea element when type is textarea', async () => {
+        await wrapper.setProps({ type: 'textarea' })
         const target = wrapper.find('textarea')
 
         expect(target.exists()).toBeTruthy()
         expect(target.classes()).toContain('textarea')
     })
 
-    it('displays the icon when the icon property is true', () => {
-        wrapper.setProps({ icon: 'magnify' })
-        const target = wrapper.find(BIcon)
+    it('displays the icon when the icon property is true', async () => {
+        await wrapper.setProps({ icon: 'magnify' })
+        const target = wrapper.findComponent(BIcon)
 
         expect(target.exists()).toBeTruthy()
     })
 
-    it('display counter when the maxlength property is passed', () => {
-        wrapper.setProps({
+    it('display counter when the maxlength property is passed', async () => {
+        await wrapper.setProps({
             value: 'foo',
             maxlength: 100
         })
@@ -48,23 +47,23 @@ describe('BInput', () => {
         expect(counter.exists()).toBeTruthy()
         expect(counter.text()).toBe('3 / 100')
 
-        wrapper.setProps({
+        await wrapper.setProps({
             value: 1234
         })
         expect(counter.text()).toBe('4 / 100')
     })
 
-    it('no display counter when hasCounter property set for false', () => {
-        wrapper.setProps({ maxlength: 100 })
+    it('no display counter when hasCounter property set for false', async () => {
+        await wrapper.setProps({ maxlength: 100 })
         expect(wrapper.find('small.counter').exists()).toBeTruthy()
 
-        wrapper.setProps({ hasCounter: false })
+        await wrapper.setProps({ hasCounter: false })
         expect(wrapper.find('small.counter').exists()).toBeFalsy()
     })
 
-    it('render field password when the type property is password', () => {
+    it('render field password when the type property is password', async () => {
         const wrapper = shallowMount(BInput, {
-            propsData: {
+            props: {
                 type: 'password',
                 passwordReveal: true
             }
@@ -75,16 +74,16 @@ describe('BInput', () => {
         expect(target.attributes().type).toBe('password')
     })
 
-    it('toggles the visibility of the password to true when the togglePasswordVisibility method is called', (done) => {
+    it('toggles the visibility of the password to true when the togglePasswordVisibility method is called', async () => {
         const wrapper = mount(BInput, {
-            propsData: {
+            props: {
                 value: 'foo',
                 type: 'password',
                 passwordReveal: true
             }
         })
 
-        wrapper.setProps({ value: 'bar' })
+        await wrapper.setProps({ value: 'bar' })
 
         expect(wrapper.find('input').exists()).toBeTruthy()
         expect(wrapper.vm.newType).toBe('password')
@@ -94,32 +93,30 @@ describe('BInput', () => {
         const visibilityIcon = wrapper.find('.icon.is-clickable')
         expect(visibilityIcon.exists()).toBeTruthy()
         visibilityIcon.trigger('click')
-        wrapper.setProps({ passwordReveal: false })
+        await wrapper.setProps({ passwordReveal: false })
         expect(wrapper.vm.newType).toBe('text')
         expect(wrapper.vm.isPasswordVisible).toBeTruthy()
         expect(wrapper.find('input').attributes().type).toBe('text')
-
-        wrapper.vm.$nextTick(done)
     })
 
-    it('render the placeholder and readonly attribute when passed', () => {
+    it('render the placeholder and readonly attribute when passed', async () => {
         const wrapper = shallowMount(BInput, {
             attrs: { placeholder: 'Awesome!', readonly: true }
         })
         const target = wrapper.find('input')
 
         expect(target.element.getAttribute('placeholder')).toBe('Awesome!')
-        expect(target.element.getAttribute('readonly')).toBe('readonly')
+        expect(target.element.getAttribute('readonly')).toBeDefined()
     })
 
-    it('expands input when expanded property is passed', () => {
-        wrapper.setProps({ expanded: true })
+    it('expands input when expanded property is passed', async () => {
+        await wrapper.setProps({ expanded: true })
 
         expect(wrapper.classes()).toContain('is-expanded')
     })
 
-    it('display loading icon when loading property passed', () => {
-        wrapper.setProps({
+    it('display loading icon when loading property passed', async () => {
+        await wrapper.setProps({
             loading: true,
             icon: 'magnify'
         })
@@ -129,7 +126,7 @@ describe('BInput', () => {
 
     it('keep its value on blur', async () => {
         const wrapper = mount(BInput, {
-            propsData: {
+            props: {
                 value: 'foo'
             },
             methods: {
@@ -146,7 +143,7 @@ describe('BInput', () => {
         expect(input.element.value).toBe('bar')
     })
 
-    it('change status icon when statusType updated', () => {
+    it('change status icon when statusType updated', async () => {
         const parent = {
             data: () => ({
                 newType: 'is-success',
@@ -157,19 +154,19 @@ describe('BInput', () => {
         }
         const wrapper = mount(parent)
 
-        const input = wrapper.find(BInput)
+        const input = wrapper.findComponent(BInput)
         expect(input.vm.statusTypeIcon).toBe('check')
-        wrapper.setData({ newType: 'is-danger' })
+        await wrapper.setData({ newType: 'is-danger' })
         expect(input.vm.statusTypeIcon).toBe('alert-circle')
-        wrapper.setData({ newType: 'is-info' })
+        await wrapper.setData({ newType: 'is-info' })
         expect(input.vm.statusTypeIcon).toBe('information')
-        wrapper.setData({ newType: 'is-warning' })
+        await wrapper.setData({ newType: 'is-warning' })
         expect(input.vm.statusTypeIcon).toBe('alert')
     })
 
-    it('manage the click on icon', (done) => {
+    it('manage the click on icon', async () => {
         const wrapper = mount(BInput, {
-            propsData: {
+            props: {
                 icon: 'magnify',
                 iconClickable: true
             }
@@ -181,9 +178,7 @@ describe('BInput', () => {
         expect(visibilityIcon.exists()).toBeTruthy()
         visibilityIcon.trigger('click')
 
-        wrapper.vm.$nextTick(() => {
-            expect(wrapper.emitted()['icon-click']).toBeTruthy()
-            done()
-        })
+        await wrapper.vm.$nextTick()
+        expect(wrapper.emitted()['icon-click']).toBeTruthy()
     })
 })

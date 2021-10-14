@@ -413,19 +413,19 @@ export default {
         },
 
         keydown(event) {
-            const { key } = event // cannot destructure preventDefault (https://stackoverflow.com/a/49616808/2774496)
+            const key = event.key.toLowerCase()
             // prevent emit submit event
-            if (key === 'Enter') event.preventDefault()
+            if (key === 'enter') { event.preventDefault() }
             // Close dropdown on Tab & no hovered
-            if (key === 'Escape' || key === 'Tab') {
+            if (key === 'escape' || key === 'tab') {
                 this.isActive = false
             }
 
-            if (this.confirmKeys.indexOf(key) >= 0) {
+            if (this.confirmKeys.map((a) => a.toLowerCase()).indexOf(key) >= 0) {
                 // If adding by comma, don't add the comma to the input
                 if (key === ',') event.preventDefault()
                 // Close dropdown on select by Tab
-                const closeDropdown = !this.keepOpen || key === 'Tab'
+                const closeDropdown = !this.keepOpen || key === 'tab'
                 if (this.hovered === null) {
                     // header and footer uses headerHovered && footerHovered. If header or footer
                     // was selected then fire event otherwise just return so a value isn't selected

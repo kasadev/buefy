@@ -160,6 +160,10 @@ export function createAbsoluteElement(el) {
     return root
 }
 
+export function isVueComponent(c) {
+    return c && !!c.$refs
+}
+
 /**
  * Escape regex characters
  * http://stackoverflow.com/a/6969486

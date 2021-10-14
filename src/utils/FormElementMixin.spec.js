@@ -10,8 +10,7 @@ describe('FormElementMixin', () => {
             template: '<div class="b-component"></div>'
         }
         wrapper = shallowMount(component, {
-            attachToDocument: true,
-            mixins: [FormElementMixin]
+            global: { mixins: [FormElementMixin] }
         })
     })
 
